@@ -1,13 +1,21 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'Atamasthana';
+export class AppComponent implements OnInit{
+
+  title = 'aframe-project';
+
+  public static readonly DOT_MODE_HOVER: number = 1;
+  public static readonly DOT_MODE_NORMAL: number = 0;
+  public static readonly DOT_MODE_GRAB: number = 2;
+  public static readonly DOT_COLOR_HOVER: string = "#d35400";
+  public static readonly DOT_COLOR_GRAB: string = "#674172"
+  public static readonly DOT_COLOR_NORMAL: string = "#1e8bc3";
+
+  ngOnInit(): void {
+  }
 }

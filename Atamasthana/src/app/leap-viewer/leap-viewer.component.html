@@ -1,0 +1,24 @@
+<h1>Leap Motion Viewer</h1>
+
+<div class="infoBox center">
+    <p>X:{{dotLeftP}}</p>
+    <p>Y:{{dotTopP}}</p>
+    <p>Gesture: {{gesture}}</p>
+</div>
+
+<div style="width: 50px; height: 50px; border-radius: 50px; position: absolute; z-index: 100;"
+    [ngStyle]="{ 'left.px': dotLeft , 'top.px': dotTop, 'background-color': dotColor,'display': dotVisible? 'block':'none'}">
+</div>
+
+<a-scene>
+    <a-camera>
+      <a-entity gltf-model="../../assets/hand/hand.glb" position="0 0 -1" color="yellow" rotation="0 0 0" id="specificationPopupHand" scale="0.1 0.1 0.1">
+        <!-- You can add a cursor component to the camera to enable cursor interaction -->
+        <a-cursor id="shopSelector" color="red" fuse="true" fuse-timeout="2000" rotation = "180 0 0">
+        </a-cursor>
+      </a-entity>
+    </a-camera>
+    
+    <!-- Add an example clickable object -->
+    <a-box class="clickable" position="0 1.6 -3" rotation="0 45 0" color="#4CC3D9" scale="2 2 2"></a-box>
+  </a-scene>

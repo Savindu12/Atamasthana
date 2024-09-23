@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/atamasthana/browser",
+    "public": "dist/aframe-project",
     "ignore": [
       "firebase.json",
       "**/.*",
