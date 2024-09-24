@@ -1,1 +1,257 @@
-<p>future-lowamahapaya works!</p>
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Cursor Handler - A-Frame School</title>
+  <meta name="description" content="Cursor Handler - A-Frame School">
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  <script src="https://unpkg.com/super-hands@^3.0.3/dist/super-hands.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.misc.min.js"></script>
+  <script src="https://gftruj.github.io/webzamples/aframe/controls/oculus-thumbstick-controls.js"></script>
+</head>
+
+<body>
+
+  <a-scene antialias="false">
+    <a-assets>
+      <script type="text/typescript" src="../iframe/iframe.component.ts"></script>
+      <img id="sky1" src="../../assets/360Sky/Sky5.jpg">
+    </a-assets>
+
+
+<!-- Camera Rig with Controllers -->
+<!-- <a-camera>
+  <a-cursor color="black">
+    
+
+  </a-cursor>
+</a-camera>
+
+
+<a-entity laser-controls="hand: right"></a-entity>
+<a-entity laser-controls="hand: left"></a-entity> -->
+
+<a-entity id="rig">
+
+  <a-camera position="0 1.6 0"></a-camera>
+
+  <a-entity oculus-touch-controls="hand: left" ></a-entity>
+
+  <a-entity oculus-touch-controls="hand: right" oculus-thumbstick-controls></a-entity>
+
+</a-entity>
+    <!-- <a-camera>
+          <a-cursor></a-cursor>
+   </a-camera> -->
+   <a-sky src ="#sky1" radius = "50" position = "0 2.5 0" rotation = "120 90 190"></a-sky>
+    <!-- Racks models view -->
+
+    <a-entity id="currentScene" visible = "true" position = "-1 0.5 -13">
+      <!-- <a-entity light="type:point; intensity: 0.5; distance: 50; decay: 2 "
+      position="0 1 0"></a-entity> -->
+     
+      <!-- <a-entity light="type:point; intensity: 0.5; "
+      position="0 30 10"></a-entity> -->
+
+      <a-light type = "point" color="white" position="0 0 -40"></a-light>
+      <a-light type="point" color="yello" position="-9 0.4 57"></a-light>
+
+    <!-- <a-light type="ambient" color="#222"></a-light> -->
+    <!-- <a-entity gltf-model="../../assets/environment_models/mainhall.glb" position="30 -100 10"  rotation ="0 0 0"  scale = "10 10 10"></a-entity> -->
+     
+      <!-- <a-entity gltf-model="../../assets/buildings/vehera1.glb" position="50 -15 -15"  raotation ="0 0 0"  scale = "5 5 5"></a-entity> -->
+    <!-- <a-entity position = "0 0.5 -10">
+      <a-entity gltf-model="../../assets/environment_models/mainhall.glb" position="5 0 5"  rotation ="0 0 0"  scale = "10 10 10"></a-entity>
+    </a-entity> -->
+
+    <a-entity position = "-9 -0.5 50">
+      <a-entity position = "5 0 -47">
+        <a-light type="point" color="yello" position="0 20 10"></a-light>
+        <a-light type="point" color="white" position="0 20 10"></a-light>
+        <a-entity gltf-model="../../assets/environment_models/mainhall.glb" position="5 0 -15"  rotation ="0 0 0"  scale = "0.004 0.007 0.0045"
+        ></a-entity>
+      </a-entity>
+    </a-entity>
+    
+    <a-entity position = "-4 4 20">
+      <!-- main sound corners -->
+      <a-entity
+      id="cylinder"
+      position="0 1.5 -3"
+      sound="src: /assets/music/wind.mp3; autoplay:true; loop:true;"  ></a-entity>
+
+     <a-entity
+      id="cylinder"
+      position="10 1.5 -3"
+      sound="src: /assets/music/wind.mp3; autoplay:true; loop:true;"  ></a-entity>
+
+      <a-entity
+      id="cylinder"
+      position="0 1.5 -20"
+      sound="src: /assets/music/jungle.mp3; autoplay:true; loop:true;"  ></a-entity>
+
+      <a-entity
+      id="cylinder"
+      position="10 1.5 -20"
+      sound="src: /assets/music/bell.mp3; autoplay:true; loop:true;"  ></a-entity>
+
+  <!--
+      <a-entity
+      id="cylinder"
+      geometry="primitive: cylinder; radius: 0.5; height: 1.5"
+      position="10 0 -12"
+      material="color: #FFC65D"
+      sound="src: /assets/music/music.mp3; autoplay:true; loop:true;"  ></a-entity>
+
+
+
+      <a-entity
+      id="cylinder"
+      geometry="primitive: cylinder; radius: 0.5; height: 1.5"
+      position="0 0 -12"
+      material="color: #FFC65D"
+      sound="src: /assets/music/music.mp3; autoplay:true; loop:true;"  ></a-entity> -->
+    </a-entity>
+ 
+  
+    <a-entity position = "-4 5.5 26">
+      <a-entity position = "5 0 -45">
+        <a-entity gltf-model="../../assets/environment_models/environment4.glb" position="0 -6 20"  rotation ="0 -90 0"  scale = "0.02 0.025 0.02"></a-entity>
+        <a-entity gltf-model="../../assets/environment_models/environment4.glb" position="0 -6 -10"  rotation ="0 -90 0"  scale = "0.02 0.025 0.02"></a-entity>
+
+        <a-entity gltf-model="../../assets/future_models/car2.glb" position="-2 -5.5 40"  rotation ="0 -180 0"  scale = "0.8 0.8 0.8"></a-entity>
+        
+        <a-entity gltf-model="../../assets/board_models/board.glb" position="2 -5.4 32"  rotation ="0 -180 0"  scale = "0.8 0.5 0.5"></a-entity>
+        
+      </a-entity>
+    
+    </a-entity>
+
+    <a-entity position = "-4 4.9 26">
+        <a-entity position = "5 0 -45">
+            <a-entity gltf-model="../../assets/future_models/lantern.glb" position="2 -5.4 32"  rotation ="0 -180 0"  scale = "3 3 3"></a-entity>
+
+        </a-entity>
+    </a-entity>
+
+    <a-entity position = "-2.1 0.5 38">
+      <a-entity position = "5 0 -45">
+        <!-- <a-light type="point" color="#FFAA33" intensity="40" position="0 5 -30" angle="20" penumbra="0.05"
+        distance="45" target="#torch1"></a-light>
+       
+
+        <a-light type="point" color="#FFAA33" intensity="20" position="50 40 20" angle="20" penumbra="0.01"
+        distance="45" target="#torch1"></a-light> -->
+
+        <a-entity id="temple-inside" gltf-model="../../assets/button_models/button.glb" position="0 0.1 19.7"  rotation ="90 -90 0"  scale = "0.1 0.1 0.1"></a-entity>
+        <a-entity id="old-inside" gltf-model="../../assets/button_models/button.glb" position="0 0.1 20"  rotation ="90 -90 0"  scale = "0.1 0.1 0.1"></a-entity>
+        <a-entity id="temple-inside" gltf-model="../../assets/button_models/button.glb" position="0 0.1 20.3"  rotation ="90 -90 0"  scale = "0.1 0.1 0.1"></a-entity>
+
+        <a-entity id="temple-inside" gltf-model="../../assets/button_models/button.glb" position="0 -0.2 19.7"  rotation ="90 -90 0"  scale = "0.1 0.1 0.1"></a-entity>
+        <a-entity id="temple-inside" gltf-model="../../assets/button_models/button.glb" position="0 -0.2 20"  rotation ="90 -90 0"  scale = "0.1 0.1 0.1"></a-entity>
+        <a-entity id="temple-inside" gltf-model="../../assets/button_models/button.glb" position="0 -0.2 20.3"  rotation ="90 -90 0"  scale = "0.1 0.1 0.1"></a-entity>
+      </a-entity>
+      
+    </a-entity>
+
+    <a-entity position = "-4 0.8 39">
+      <a-entity position = "5 -1.2 -45">
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="0 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.4"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="2 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.4"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="4 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.4"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="6 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.4"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="8 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.4"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="10 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.4"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="12 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.4"></a-entity>
+
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-0 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.4"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-2 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.4"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-4 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.4"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-6 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.4"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-8 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.4"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-10 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.4"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-12 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.4"></a-entity>
+      </a-entity>
+
+      <a-entity position = "4 -1.2 -43">
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="0 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="2 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_modelglb" position="4 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="6 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="8 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="10 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="12 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-2 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-4 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-6 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-8 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-10 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-12 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+      </a-entity>
+
+      <a-entity position = "6 -1.2 -41">
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="0 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="2 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="4 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="6 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="8 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="10 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="12 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-2 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-4 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-6 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-8 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-10 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-12 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+      </a-entity>
+
+      <a-entity position = "5 -1.2 -39">
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="0 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="2 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="4 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="6 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="8 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="10 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="12 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-2 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-4 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-6 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-8 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-10 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-12 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+      </a-entity>
+
+      <a-entity position = "5 -1.2 -37">
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="0 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="2 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="4 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="6 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="8 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="10 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="12 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-2 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-4 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-6 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-8 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-10 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+        <a-entity gltf-model="../../assets/tower_models/tower_model.glb" position="-12 0 2"  rotation ="0 0 0"  scale = "0.35 0.7 0.35"></a-entity>
+      </a-entity>
+
+    </a-entity>
+
+   
+     
+
+    </a-entity>
+
+  </a-scene>
+
+
+</body>
+
+</html>

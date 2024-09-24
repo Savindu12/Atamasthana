@@ -26,7 +26,7 @@ export class CurrentLowamahapayaComponent implements AfterViewInit {
 
       
       schema: {
-        acceleration: { default: 45 },
+        acceleration: { default: 25 },
         rigSelector: { default: "#rig" },
         fly: { default: false },
         controllerOriented: { default: false },
