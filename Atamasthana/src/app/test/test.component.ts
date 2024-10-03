@@ -2,6 +2,7 @@ import { Component, AfterViewInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import * as THREE from 'three';
+import { Router } from '@angular/router';
 
 declare const AFRAME: any;
 
@@ -14,18 +15,20 @@ export class TestComponent implements AfterViewInit {
 
   constructor(
     public http: HttpClient,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private router: Router
   ) { }
 
   async ngAfterViewInit(): Promise<void> {
 
-    
+    const component = this; 
+
 
     AFRAME.registerComponent('oculus-thumbstick-controls', {
 
       
       schema: {
-        acceleration: { default: 45 },
+        acceleration: { default: 15 },
         rigSelector: { default: "#rig" },
         fly: { default: false },
         controllerOriented: { default: false },
@@ -45,7 +48,28 @@ export class TestComponent implements AfterViewInit {
         this.tsData = new THREE.Vector2(0, 0);
         this.thumbstickMoved = this.thumbstickMoved.bind(this)
         this.el.addEventListener('thumbstickmoved', this.thumbstickMoved);
-        
+
+        const currentView = document.getElementById('current');
+        const futureView = document.getElementById('future');
+
+        const el = this.el; 
+
+        // Listen for 'triggerdown' event on the laser controller entity
+        // el?.addEventListener('triggerdown', () => {
+        // currentView?.setAttribute('visible', 'false');
+        // currentView?.setAttribute('position', "0 -10000 -10000");
+        // currentView?.setAttribute('scale', '0.00001 0.00001 0.00001')
+
+        // futureView?.setAttribute('visible', 'true');
+        // futureView?.setAttribute('position', "0 0 0")
+        // futureView
+        // });
+    
+        // futureView?.addEventListener('triggerdown', () => {
+        //   console.log("Grip button pressed");
+        //   component.router.navigate(['/future-lowamahapaya']);
+
+        // });
       },
 
 

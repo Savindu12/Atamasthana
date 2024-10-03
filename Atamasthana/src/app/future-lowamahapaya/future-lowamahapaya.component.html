@@ -19,19 +19,6 @@
       <img id="sky1" src="../../assets/360Sky/sky7.jpg">
     </a-assets>
 
-
-<!-- Camera Rig with Controllers -->
-<!-- <a-camera>
-  <a-cursor color="black">
-    
-
-  </a-cursor>
-</a-camera>
-
-
-<a-entity laser-controls="hand: right"></a-entity>
-<a-entity laser-controls="hand: left"></a-entity> -->
-
 <a-entity id="rig">
 
   <a-camera position="0 1.6 0"></a-camera>
@@ -41,9 +28,9 @@
   <a-entity oculus-touch-controls="hand: right" oculus-thumbstick-controls></a-entity>
 
 </a-entity>
-    <!-- <a-camera>
-          <a-cursor></a-cursor>
-   </a-camera> -->
+
+  <a-entity id = "future">
+
    <a-sky src="#sky1" radius="50" position="0 2.5 0" rotation="0 0 0" phi-length="360" theta-length="180"></a-sky>
 
     <!-- Racks models view -->
@@ -70,8 +57,10 @@
       <a-entity position = "5 0 -47">
         <a-light type="point" color="yello" position="0 20 10"></a-light>
         <a-light type="point" color="white" position="0 20 10"></a-light>
-        <a-entity gltf-model="../../assets/environment_models/mainhall.glb" position="5 0 -15"  rotation ="0 0 0"  scale = "0.004 0.007 0.0045"
+        <a-entity gltf-model="../../assets/environment_models/hall2.glb" position="5 0 -15"  rotation ="0 90 0"  scale = "1 2.7 3.2 "
         ></a-entity>
+        <!-- <a-entity gltf-model="../../assets/roof_models/roof3.glb" position="5 15 -12"  rotation ="0 90 30"  scale = "0.05 0.05 0.05"
+        ></a-entity> -->
       </a-entity>
     </a-entity>
     
@@ -104,7 +93,6 @@
       sound="src: /assets/music/music3.mp3; autoplay:true; loop:true;"  ></a-entity>
 
 
-
       <a-entity
       id="cylinder"
       position="0 0 -12"
@@ -114,10 +102,10 @@
   
     <a-entity position = "-4 5.5 26">
       <a-entity position = "5 0 -45">
-        <a-entity gltf-model="../../assets/environment_models/environment4.glb" position="0 -6 20"  rotation ="0 -90 0"  scale = "0.02 0.025 0.02"></a-entity>
+        <a-entity id="gate" gltf-model="../../assets/environment_models/environment4.glb" position="0 -6 20"  rotation ="0 -90 0"  scale = "0.02 0.025 0.02"></a-entity>
         <a-entity gltf-model="../../assets/environment_models/environment4.glb" position="0 -6 -10"  rotation ="0 -90 0"  scale = "0.02 0.025 0.02"></a-entity>
 
-        <a-entity gltf-model="../../assets/future_models/car2.glb" position="-1 -5.2 40"  rotation ="0 -180 0"  scale = "1 1 1"></a-entity>
+        <!-- <a-entity gltf-model="../../assets/future_models/car2.glb" position="-1 -5.2 40"  rotation ="0 -180 0"  scale = "1 1 1"></a-entity> -->
     
 
 
@@ -298,7 +286,7 @@
      
 
     </a-entity>
-
+  </a-entity>
   </a-scene>
 
 

@@ -17,6 +17,8 @@
     <a-assets>
       <script type="text/typescript" src="../iframe/iframe.component.ts"></script>
       <img id="sky1" src="../../assets/360Sky/sky4.jpg">
+      <img id="sky2" src="../../assets/logo_models/logo-no-background.png">
+
     </a-assets>
 
 
@@ -45,6 +47,8 @@
           <a-cursor></a-cursor>
    </a-camera> -->
    <a-sky src ="#sky1" radius = "50" position = "0 2.5 0" rotation = "120 90 190"></a-sky>
+
+   <a-image></a-image>
     <!-- Racks models view -->
 
     <a-entity id="currentScene" visible = "true" position = "-1 0.5 -13">
@@ -69,7 +73,9 @@
       <a-entity position = "5 0 -47">
         <a-light type="point" color="yello" position="0 20 10"></a-light>
         <a-light type="point" color="white" position="0 20 10"></a-light>
-        <a-entity gltf-model="../../assets/environment_models/mainhall.glb" position="5 0 -15"  rotation ="0 0 0"  scale = "0.004 0.007 0.0045"
+        <a-entity gltf-model="../../assets/environment_models/hall2.glb" position="5 5 -16"  rotation ="0 90 0"  scale = "1 2.7 3.2 "
+        ></a-entity>
+        <a-entity gltf-model="../../assets/environment_models/hall2.glb" position="5 -5 -12"  rotation ="0 90 0"  scale = "1 2.5 3.2 "
         ></a-entity>
       </a-entity>
     </a-entity>
