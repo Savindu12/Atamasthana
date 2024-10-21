@@ -1,1 +1,14 @@
-<p>kalingha-magha-lowamahapaya works!</p>
+<div>
+    <h2>Voice Navigation</h2>
+  
+    <!-- Button to toggle recording -->
+    <button (click)="isRecording ? stopRecording() : startRecording()">
+      {{ isRecording ? 'Stop Recording' : 'Start Recording' }}
+    </button>
+  
+    <!-- Display recognized text -->
+    <div *ngIf="recognizedText">
+      <p>You said: "{{ recognizedText }}"</p>
+    </div>
+  </div>
+  

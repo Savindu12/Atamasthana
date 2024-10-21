@@ -1,8 +1,9 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import * as THREE from 'three';
 import { Router } from '@angular/router';
+import { VoiceRecognitionService } from '../services/voice-recognition.service';
 
 declare const AFRAME: any;
 
@@ -13,20 +14,28 @@ declare const AFRAME: any;
 })
 export class TestComponent implements AfterViewInit {
 
+  allowedArea = {
+    minX: -1,  // Set these according to your road positions
+    maxX: 1,
+    minZ: -7,
+    maxZ: 10
+  };
+
+  towerPosition = new THREE.Vector3(-4, 0.8, 39); // Tower position
+  towerRadius = 5; // Distance to prevent approaching the tower
+
   constructor(
     public http: HttpClient,
     private firestore: AngularFirestore,
-    private router: Router
+    private router: Router,
+ 
   ) { }
 
+
   async ngAfterViewInit(): Promise<void> {
-
-    const component = this; 
-
+    const component = this;
 
     AFRAME.registerComponent('oculus-thumbstick-controls', {
-
-      
       schema: {
         acceleration: { default: 15 },
         rigSelector: { default: "#rig" },
@@ -41,71 +50,71 @@ export class TestComponent implements AfterViewInit {
         wsInverted: { default: false }
       },
 
-
       init: function () {
         this.easing = 1.1;
         this.velocity = new THREE.Vector3(0, 0, 0);
         this.tsData = new THREE.Vector2(0, 0);
-        this.thumbstickMoved = this.thumbstickMoved.bind(this)
+        this.thumbstickMoved = this.thumbstickMoved.bind(this);
         this.el.addEventListener('thumbstickmoved', this.thumbstickMoved);
 
-        const currentView = document.getElementById('current');
-        const futureView = document.getElementById('future');
-
-        const el = this.el; 
-
-        // Listen for 'triggerdown' event on the laser controller entity
-        // el?.addEventListener('triggerdown', () => {
-        // currentView?.setAttribute('visible', 'false');
-        // currentView?.setAttribute('position', "0 -10000 -10000");
-        // currentView?.setAttribute('scale', '0.00001 0.00001 0.00001')
-
-        // futureView?.setAttribute('visible', 'true');
-        // futureView?.setAttribute('position', "0 0 0")
-        // futureView
-        // });
-    
-        // futureView?.addEventListener('triggerdown', () => {
-        //   console.log("Grip button pressed");
-        //   component.router.navigate(['/future-lowamahapaya']);
-
-        // });
+        // Assign the allowed area and tower data from the component
+        this.allowedArea = component.allowedArea;
+        this.towerPosition = component.towerPosition;
+        this.towerRadius = component.towerRadius;
       },
-
 
       update: function () {
-        this.rigElement = document.querySelector(this.data.rigSelector)
+        this.rigElement = document.querySelector(this.data.rigSelector);
       },
 
-
       tick: function (time: any, delta: any) {
-
         if (!this.el.sceneEl.is('vr-mode')) return;
         var data = this.data;
-        var el = this.rigElement
+        var el = this.rigElement;
         var velocity = this.velocity;
-
-
-        //console.log("here", this.tsData, this.tsData.length())
 
         if (!velocity[data.adAxis] && !velocity[data.wsAxis] && !this.tsData.length()) { return; }
 
-
         // Update velocity.
-
         delta = delta / 1000;
         this.updateVelocity(delta);
         if (!velocity[data.adAxis] && !velocity[data.wsAxis]) { return; }
 
-        // Get movement vector and translate position.
+        // Get movement vector and calculate the potential new position.
+        var movementVector = this.getMovementVector(delta);
+        var potentialPosition = el.object3D.position.clone().add(movementVector);
 
-        el.object3D.position.add(this.getMovementVector(delta));
-
+        // Check if the potential position is within the allowed boundaries.
+        if (this.isPositionAllowed(potentialPosition)) {
+          // Update position if within allowed area
+          el.object3D.position.copy(potentialPosition);
+        } else {
+          // Stop movement if not allowed
+          this.velocity.set(0, 0, 0);
+        }
       },
 
+      isPositionAllowed: function (position: { x: number; z: number; distanceTo: (arg0: any) => any; }) {
+        // Check if the position is within the allowed area (road boundaries)
+        if (
+          position.x < this.allowedArea.minX ||
+          position.x > this.allowedArea.maxX ||
+          position.z < this.allowedArea.minZ ||
+          position.z > this.allowedArea.maxZ
+        ) {
+          return false;
+        }
 
-      updateVelocity: function (delta:any) {
+        // Check the distance to the tower
+        var distanceToTower = position.distanceTo(this.towerPosition);
+        if (distanceToTower < this.towerRadius) {
+          return false;
+        }
 
+        return true;
+      },
+
+      updateVelocity: function (delta: any) {
         var acceleration;
         var adAxis;
         var adSign;
@@ -119,90 +128,61 @@ export class TestComponent implements AfterViewInit {
         adAxis = data.adAxis;
         wsAxis = data.wsAxis;
 
-        // If FPS too low, reset velocity.
-
         if (delta > 0.2) {
-
           velocity[adAxis] = 0;
-
           velocity[wsAxis] = 0;
-
           return;
-
         }
-
-
-        // https://gamedev.stackexchange.com/questions/151383/frame-rate-independant-movement-with-acceleration
 
         var scaledEasing = Math.pow(1 / this.easing, delta * 60);
 
-        // Velocity Easing.
-
+        // Velocity Easing
         if (velocity[adAxis] !== 0) {
-
           velocity[adAxis] = velocity[adAxis] * scaledEasing;
-
         }
 
-
         if (velocity[wsAxis] !== 0) {
-
           velocity[wsAxis] = velocity[wsAxis] * scaledEasing;
-
         }
 
         // Clamp velocity easing.
-
         if (Math.abs(velocity[adAxis]) < CLAMP_VELOCITY) { velocity[adAxis] = 0; }
-
         if (Math.abs(velocity[wsAxis]) < CLAMP_VELOCITY) { velocity[wsAxis] = 0; }
 
         if (!data.enabled) { return; }
 
-        // Update velocity using keys pressed.
-
+        // Update velocity based on thumbstick input
         acceleration = data.acceleration;
-
         if (data.adEnabled && this.tsData.x) {
-
           adSign = data.adInverted ? -1 : 1;
-
           velocity[adAxis] += adSign * acceleration * this.tsData.x * delta;
-
         }
-
-        if (data.wsEnabled) {
-
+        if (data.wsEnabled && this.tsData.y) {
           wsSign = data.wsInverted ? -1 : 1;
-
           velocity[wsAxis] += wsSign * acceleration * this.tsData.y * delta;
-
         }
-
       },
-      
 
-      getMovementVector : (function () {
+      getMovementVector: (function () {
         const directionVector = new THREE.Vector3(0, 0, 0);
         const rotationEuler = new THREE.Euler(0, 0, 0, 'YXZ');
-      
-        return function (this: MovementContext, delta: number) {
+
+        return function (this: any, delta: number) {
           const rotation = this.el.sceneEl.camera.el.object3D.rotation;
           const velocity = this.velocity;
           let xRotation: number;
-      
+
           directionVector.copy(velocity);
           directionVector.multiplyScalar(delta);
-      
+
           if (!rotation) {
             return directionVector;
           }
-      
+
           xRotation = this.data.fly ? rotation.x : 0;
           rotationEuler.set(xRotation, rotation.y, 0);
-      
+
           directionVector.applyEuler(rotationEuler);
-      
           return directionVector;
         };
       })(),
@@ -215,24 +195,5 @@ export class TestComponent implements AfterViewInit {
         this.el.removeEventListener('thumbstickmoved', this.thumbstickMoved);
       }
     });
-    
-    interface MovementContext {
-      el: {
-        sceneEl: {
-          camera: {
-            el: {
-              object3D: {
-                rotation: THREE.Euler;
-              };
-            };
-          };
-        };
-      };
-      velocity: THREE.Vector3;
-      data: {
-        fly: boolean;
-      };
-    }
   }
-  
 }

@@ -9,9 +9,11 @@
   <script src="https://unpkg.com/super-hands@^3.0.3/dist/super-hands.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.misc.min.js"></script>
   <script src="https://gftruj.github.io/webzamples/aframe/controls/oculus-thumbstick-controls.js"></script>
+
 </head>
 
 <body>
+
 
   <a-scene antialias="false" >
     <a-assets>
@@ -19,7 +21,7 @@
       <img id="sky1" src="../../assets/360Sky/sky7.jpg">
 
       <img id="sky2" src="../assets/360Sky/sky2.jpg">
-      <img id="sky3" src="../../assets/logo_models/logo-no-background.png">
+      <img id="sky3" src="../../assets/logo_models/background.png">
 
     </a-assets>
 
@@ -36,7 +38,7 @@
 <a-entity laser-controls="hand: right"></a-entity>
 <a-entity laser-controls="hand: left"></a-entity> -->
 
-<a-entity id="rig">
+<a-entity id="rig" dynamic-body>
 
   <a-camera position="0 1.6 0"> 
     <!-- <a-cursor color="black">
@@ -54,7 +56,7 @@
   <a-entity id = "current">
     <a-sky src ="#sky2" radius = "70" position = "0 2.5 0" rotation = "120 90 190"></a-sky>
 
-    <a-image src ="#sky3" position = "0 50 -25" rotation = "20 0 0" scale = "50 10 10"></a-image>
+    <a-image src ="#sky3" position = "0 50 -25" rotation = "20 0 0" scale = "50 15 10"></a-image>
 
 
     <a-entity id="currentScene" visible = "true" position = "-1 0.5 -8">
@@ -75,15 +77,27 @@
     </a-entity> -->
 
     <a-entity position = "-9 -0.5 50">
-      <a-entity position = "5 0 -47">
+
+      <a-entity position = "5 1 -47">
+        <a-light type="point" color="yello" position="0 20 10"></a-light>
         <a-light type="point" color="white" position="0 20 10"></a-light>
-        <a-entity gltf-model="../../assets/environment_models/mainhall.glb" position="5 0 -15"  rotation ="0 0 0"  scale = "0.0075 0.007 0.0045"
+
+        <a-entity gltf-model="../../assets/environment_models/hall2.glb" position="5 8 -16"  rotation ="0 90 10"  scale = "1 2.7 3.2 "
         ></a-entity>
-        <a-entity gltf-model="../../assets/environment_models/mainhall.glb" position="5 10 -17"  rotation ="0 0 0"  scale = "0.0055 0.007 0.0045"
+
+        <a-entity gltf-model="../../assets/environment_models/hall2.glb" position="-3 2 -16"  rotation ="0 90 5"  scale = "1 2.7 3.2 "
         ></a-entity>
-        <a-entity gltf-model="../../assets/environment_models/mainhall.glb" position="5 15 -19"  rotation ="0 0 0"  scale = "0.0035 0.007 0.0045"
+        <a-entity gltf-model="../../assets/environment_models/hall2.glb" position="6 2 -16"  rotation ="0 90 5"  scale = "1 2.7 3.2 "
         ></a-entity>
-        <a-entity gltf-model="../../assets/roof_models/roof.glb" position="5 6 -19"  rotation ="0 0 0"  scale = "1 1 1"
+        <a-entity gltf-model="../../assets/environment_models/hall2.glb" position="12 2 -16"  rotation ="0 90 5"  scale = "1 2.7 3.2 "
+        ></a-entity>
+
+
+        <a-entity gltf-model="../../assets/environment_models/hall2.glb" position="5 -4 -12"  rotation ="0 90 0"  scale = "1 2 4"
+        ></a-entity>
+        <a-entity gltf-model="../../assets/environment_models/hall2.glb" position="15 -4 -12"  rotation ="0 90 0"  scale = "1 2 4"
+        ></a-entity>
+        <a-entity gltf-model="../../assets/environment_models/hall2.glb" position="-6 -4 -12"  rotation ="0 90 0"  scale = "1 2 4"
         ></a-entity>
       </a-entity>
     </a-entity>
@@ -125,8 +139,19 @@
   
     <a-entity position = "-4 5.5 30">
       <a-entity position = "5 0 -45">
-        <a-entity gltf-model="../../assets/wall_models/road2.glb" position="0 -6 20"  rotation ="0 0 0"  scale = "4.3 4.5 5.0"></a-entity>
-        <a-entity gltf-model="../../assets/wall_models/road2.glb" position="0 -6 40"  rotation ="0 0 0"  scale = "4.3 4.5 5.0"></a-entity>
+
+        <!-- Left Wall -->
+<a-entity geometry="primitive: box; width: 1; height: 5; depth: 80"
+position="-5 2.5 40" visible="false"
+static-body></a-entity>
+
+<!-- Right Wall -->
+<a-entity geometry="primitive: box; width: 1; height: 5; depth: 80"
+position="5 2.5 40" visible="false"
+static-body></a-entity>
+
+        <a-entity id="road1" gltf-model="../../assets/wall_models/road2.glb" position="0 -6 20"  rotation ="0 0 0"  scale = "4.3 4.5 5.0"></a-entity>
+        <a-entity id="road2" gltf-model="../../assets/wall_models/road2.glb" position="0 -6 40"  rotation ="0 0 0"  scale = "4.3 4.5 5.0"></a-entity>
 
         <a-entity gltf-model="../../assets/wall_models/road.glb" position="15 -6 20"  rotation ="0 0 0"  scale = "4.3 4.5 5.0"></a-entity>
         <a-entity gltf-model="../../assets/wall_models/road.glb" position="-15 -6 20"  rotation ="0 0 0"  scale = "4.3 4.5 5.0"></a-entity>
@@ -161,7 +186,13 @@
       
     </a-entity>
 
-    <a-entity position = "-4 0.8 39">
+    <a-entity id="tower" position = "-4 0.8 39">
+
+      <a-entity id="towerCollider"
+          geometry="primitive: sphere; radius: 5;"
+          position="-4 0.8 39" visible="false"
+          static-body></a-entity>
+
       <a-entity position = "5 0.1 -45">
         <a-entity gltf-model="../../assets/tower_models/tower_model3.glb" position="0 0 2"  rotation ="0 0 0"  scale = "0.1 0.1 0.1"></a-entity>
         <a-entity gltf-model="../../assets/tower_models/tower_model3.glb" position="2 0 2"  rotation ="0 0 0"  scale = "0.1 0.1 0.1"></a-entity>
