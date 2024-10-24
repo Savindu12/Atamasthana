@@ -22,3 +22,8 @@ export class RecordServiceService {
     return this.http.post<any>(this.apiUrl, formData);
   }
 }
+
+
+
+
+

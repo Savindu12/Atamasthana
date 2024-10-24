@@ -71,8 +71,8 @@ export class KalinghaMaghaLowamahapayaComponent {
           console.error('Error during audio recognition:', error);
         });
     }
-  }
-
+ }
+ 
   // Process recognized command and navigate
   processCommand(command: string) {
     // Define routes that can be matched with spoken commands
