@@ -17,12 +17,58 @@ export class FutureLowamahapayaComponent implements AfterViewInit {
     private firestore: AngularFirestore
   ) { }
 
+  allowedArea = {
+    minX: -1,  // Set these according to your road positions
+    maxX: 1,
+    minZ: -6,
+    maxZ: 10
+  };
+
+  towerPosition = new THREE.Vector3(-4, 0.8, 39); // Tower position
+  towerRadius = 5; // Distance to prevent approaching the tower
+
   async ngAfterViewInit(): Promise<void> {
+    const component = this;
+
+    AFRAME.registerComponent('navigate-button', {
+      schema: {
+        targetScene: {type: 'string'}
+      },
+    
+      init: function () {
+        const el = this.el;
+        const targetScene = this.data.targetScene;
+    
+        el.addEventListener('click', () => {
+          switch(targetScene) {
+            case 'current-lowamahapaya':
+              window.location.href = '/current-lowamahapaya';
+              break;
+            case 'future-scenario':
+              window.location.href = '/future-lowamahapaya';
+              break;
+            case 'old-scenario':
+              window.location.href = '/old-lowamahapaya';
+              break;
+            default:
+              console.warn('Scene not defined for target:', targetScene);
+          }
+        });
+      },
+    
+      navigateToScene: function(scenePath: string) {
+        const currentScene = document.getElementById('currentScene');
+        if (currentScene) {
+          currentScene.setAttribute('gltf-model', scenePath);
+        } else {
+          console.warn('Element with id "currentScene" not found.');
+        }
+      }
+    });
 
     AFRAME.registerComponent('oculus-thumbstick-controls', {
-
       schema: {
-        acceleration: { default: 25 },
+        acceleration: { default: 15 },
         rigSelector: { default: "#rig" },
         fly: { default: false },
         controllerOriented: { default: false },
@@ -41,6 +87,11 @@ export class FutureLowamahapayaComponent implements AfterViewInit {
         this.tsData = new THREE.Vector2(0, 0);
         this.thumbstickMoved = this.thumbstickMoved.bind(this);
         this.el.addEventListener('thumbstickmoved', this.thumbstickMoved);
+
+        // Assign the allowed area and tower data from the component
+        this.allowedArea = component.allowedArea;
+        this.towerPosition = component.towerPosition;
+        this.towerRadius = component.towerRadius;
       },
 
       update: function () {
@@ -49,86 +100,98 @@ export class FutureLowamahapayaComponent implements AfterViewInit {
 
       tick: function (time: any, delta: any) {
         if (!this.el.sceneEl.is('vr-mode')) return;
+        var data = this.data;
+        var el = this.rigElement;
+        var velocity = this.velocity;
 
-        const el = this.rigElement;
-        const velocity = this.velocity;
+        if (!velocity[data.adAxis] && !velocity[data.wsAxis] && !this.tsData.length()) { return; }
 
-        const LEFT_BOUND = -2.2;  // Left boundary
-        const RIGHT_BOUND = 2.2;  // Right boundary
-
-        const currentX = el.object3D.position.x;
-
-        // Restrict movement between the bounds (left and right)
-        if (currentX + velocity.x * delta > RIGHT_BOUND) {
-          velocity.x = 0;
-          el.object3D.position.x = RIGHT_BOUND;
-        }
-        if (currentX + velocity.x * delta < LEFT_BOUND) {
-          velocity.x = 0;
-          el.object3D.position.x = LEFT_BOUND; 
-        }
-
-        // Lantern collision detection
-        const lanterns = [
-          { position: new THREE.Vector3(-2, 0, -10), radius: 1 },  // Left lantern
-          { position: new THREE.Vector3(2, 0, -10), radius: 1 }   // Right lantern
-        ];
-
-        lanterns.forEach(lantern => {
-          const distance = el.object3D.position.distanceTo(lantern.position);
-          if (distance < lantern.radius) {
-            velocity.x = 0;
-            velocity.z = 0;  // Stop movement upon collision
-          }
-        });
-
-        if (!velocity[this.data.adAxis] && !velocity[this.data.wsAxis] && !this.tsData.length()) {
-          return;
-        }
-
-        // Update velocity
+        // Update velocity.
         delta = delta / 1000;
         this.updateVelocity(delta);
+        if (!velocity[data.adAxis] && !velocity[data.wsAxis]) { return; }
 
-        if (velocity[this.data.adAxis] || velocity[this.data.wsAxis]) {
-          el.object3D.position.add(this.getMovementVector(delta));
+        // Get movement vector and calculate the potential new position.
+        var movementVector = this.getMovementVector(delta);
+        var potentialPosition = el.object3D.position.clone().add(movementVector);
+
+        // Check if the potential position is within the allowed boundaries.
+        if (this.isPositionAllowed(potentialPosition)) {
+          // Update position if within allowed area
+          el.object3D.position.copy(potentialPosition);
+        } else {
+          // Stop movement if not allowed
+          this.velocity.set(0, 0, 0);
         }
+        
+      },
+
+      isPositionAllowed: function (position: { x: number; z: number; distanceTo: (arg0: any) => any; }) {
+        // Check if the position is within the allowed area (road boundaries)
+        if (
+          position.x < this.allowedArea.minX ||
+          position.x > this.allowedArea.maxX ||
+          position.z < this.allowedArea.minZ ||
+          position.z > this.allowedArea.maxZ
+        ) {
+          return false;
+        }
+
+        // Check the distance to the tower
+        var distanceToTower = position.distanceTo(this.towerPosition);
+        if (distanceToTower < this.towerRadius) {
+          return false;
+        }
+
+        return true;
       },
 
       updateVelocity: function (delta: any) {
+        var acceleration;
+        var adAxis;
+        var adSign;
+        var data = this.data;
+        var velocity = this.velocity;
+        var wsAxis;
+        var wsSign;
+
         const CLAMP_VELOCITY = 0.00001;
-        const velocity = this.velocity;
-        const data = this.data;
 
-        const scaledEasing = Math.pow(1 / this.easing, delta * 60);
+        adAxis = data.adAxis;
+        wsAxis = data.wsAxis;
 
-        if (velocity[data.adAxis] !== 0) {
-          velocity[data.adAxis] = velocity[data.adAxis] * scaledEasing;
+        if (delta > 0.2) {
+          velocity[adAxis] = 0;
+          velocity[wsAxis] = 0;
+          return;
         }
 
-        if (velocity[data.wsAxis] !== 0) {
-          velocity[data.wsAxis] = velocity[data.wsAxis] * scaledEasing;
+        var scaledEasing = Math.pow(1 / this.easing, delta * 60);
+
+        // Velocity Easing
+        if (velocity[adAxis] !== 0) {
+          velocity[adAxis] = velocity[adAxis] * scaledEasing;
         }
 
-        if (Math.abs(velocity[data.adAxis]) < CLAMP_VELOCITY) {
-          velocity[data.adAxis] = 0;
+        if (velocity[wsAxis] !== 0) {
+          velocity[wsAxis] = velocity[wsAxis] * scaledEasing;
         }
 
-        if (Math.abs(velocity[data.wsAxis]) < CLAMP_VELOCITY) {
-          velocity[data.wsAxis] = 0;
-        }
+        // Clamp velocity easing.
+        if (Math.abs(velocity[adAxis]) < CLAMP_VELOCITY) { velocity[adAxis] = 0; }
+        if (Math.abs(velocity[wsAxis]) < CLAMP_VELOCITY) { velocity[wsAxis] = 0; }
 
-        if (!data.enabled) return;
+        if (!data.enabled) { return; }
 
-        const acceleration = data.acceleration;
+        // Update velocity based on thumbstick input
+        acceleration = data.acceleration;
         if (data.adEnabled && this.tsData.x) {
-          const adSign = data.adInverted ? -1 : 1;
-          velocity[data.adAxis] += adSign * acceleration * this.tsData.x * delta;
+          adSign = data.adInverted ? -1 : 1;
+          velocity[adAxis] += adSign * acceleration * this.tsData.x * delta;
         }
-
-        if (data.wsEnabled) {
-          const wsSign = data.wsInverted ? -1 : 1;
-          velocity[data.wsAxis] += wsSign * acceleration * this.tsData.y * delta;
+        if (data.wsEnabled && this.tsData.y) {
+          wsSign = data.wsInverted ? -1 : 1;
+          velocity[wsAxis] += wsSign * acceleration * this.tsData.y * delta;
         }
       },
 
@@ -139,16 +202,19 @@ export class FutureLowamahapayaComponent implements AfterViewInit {
         return function (this: any, delta: number) {
           const rotation = this.el.sceneEl.camera.el.object3D.rotation;
           const velocity = this.velocity;
+          let xRotation: number;
 
           directionVector.copy(velocity);
           directionVector.multiplyScalar(delta);
 
-          if (!rotation) return directionVector;
+          if (!rotation) {
+            return directionVector;
+          }
 
-          const xRotation = this.data.fly ? rotation.x : 0;
+          xRotation = this.data.fly ? rotation.x : 0;
           rotationEuler.set(xRotation, rotation.y, 0);
-          directionVector.applyEuler(rotationEuler);
 
+          directionVector.applyEuler(rotationEuler);
           return directionVector;
         };
       })(),

@@ -16,7 +16,7 @@
   <a-scene antialias="false">
     <a-assets>
       <script type="text/typescript" src="../iframe/iframe.component.ts"></script>
-      <img id="sky1" src="../../assets/360Sky/sky4.jpg">
+      <img id="sky1" src="../../assets/360Sky/sky6.jpg">
       <img id="sky2" src="../../assets/logo_models/logo-no-background.png">
 
     </a-assets>
@@ -38,17 +38,17 @@
 
   <a-camera position="0 1.6 0"></a-camera>
 
-  <a-entity oculus-touch-controls="hand: left" ></a-entity>
+  <a-entity oculus-touch-controls="hand: left" oculus-thumbstick-controls ></a-entity>
 
-  <a-entity oculus-touch-controls="hand: right" oculus-thumbstick-controls></a-entity>
+  <a-entity oculus-touch-controls="hand: right"  laser-controls="hand: right" oculus-thumbstick-controls></a-entity>
 
 </a-entity>
     <!-- <a-camera>
           <a-cursor></a-cursor>
    </a-camera> -->
-   <a-sky src ="#sky1" radius = "100" position = "0 2.5 0" rotation = "120 90 190"></a-sky>
+   <a-sky src ="#sky1" radius = "100" position = "0 2.5 0" rotation = "0 -90 0"></a-sky>
 
-   <a-image></a-image>
+ 
     <!-- Racks models view -->
 
     <a-entity id="currentScene" visible = "true" position = "-1 0.5 -13">
@@ -122,7 +122,7 @@
       <a-entity
       id="cylinder"
       position="0 1.5 -3"
-      sound="src: /assets/music/wind.mp3; autoplay:true; loop:true;"  ></a-entity>
+      sound="src: /assets/music/ancient.mp3; autoplay:true; loop:true;"  ></a-entity>
 
      <a-entity
       id="cylinder"
@@ -138,6 +138,11 @@
       id="cylinder"
       position="10 1.5 -20"
       sound="src: /assets/music/bell.mp3; autoplay:true; loop:true;"  ></a-entity>
+
+      <a-entity
+      id="cylinder"
+      position="10 1.5 -20"
+      sound="src: /assets/music/ancient.mp3; autoplay:true; loop:true;"  ></a-entity>
 
   <!--
       <a-entity
@@ -158,24 +163,48 @@
     </a-entity>
  
   
-    <!-- <a-entity position = "-4 5.5 30">
-      <a-entity position = "5 0 -45">
-        <a-entity gltf-model="../../assets/wall_models/road2.glb" position="0 -6 20"  rotation ="0 0 0"  scale = "4.3 4.5 5.0"></a-entity>
-        <a-entity gltf-model="../../assets/wall_models/road2.glb" position="0 -6 40"  rotation ="0 0 0"  scale = "4.3 4.5 5.0"></a-entity>
+    <a-entity position="-4 5.5 40">
+      <a-entity position="5 0 -45">
 
-        <a-entity gltf-model="../../assets/wall_models/road2.glb" position="0 -6.5 60"  rotation ="0 90 0"  scale = "4.3 4.5 5.0"></a-entity>
+        <!-- Left Wall -->
+        <a-entity geometry="primitive: box; width: 1; height: 5; depth: 80" position="-5 2.5 40" visible="false"
+          static-body></a-entity>
 
-        <a-entity gltf-model="../../assets/wall_models/road.glb" position="15 -6 20"  rotation ="0 0 0"  scale = "4.3 4.5 5.0"></a-entity>
-        <a-entity gltf-model="../../assets/wall_models/road.glb" position="-15 -6 20"  rotation ="0 0 0"  scale = "4.3 4.5 5.0"></a-entity>
+        <!-- Right Wall -->
+        <a-entity geometry="primitive: box; width: 1; height: 5; depth: 80" position="5 2.5 40" visible="false"
+          static-body></a-entity>
 
-        <a-entity gltf-model="../../assets/wall_models/road.glb" position="15 -6 40"  rotation ="0 0 0"  scale = "4.3 4.5 5.0"></a-entity>
-        <a-entity gltf-model="../../assets/wall_models/road.glb" position="-15 -6 40"  rotation ="0 0 0"  scale = "4.3 4.5 5.0"></a-entity>
-        
-        <a-entity gltf-model="../../assets/board_models/board.glb" position="2 -5.4 24"  rotation ="0 -180 0"  scale = "0.8 0.5 0.5"></a-entity>
-        
+          <a-entity id="road1" gltf-model="../../assets/tower_models/tower_model2.glb" position="-3 -5.4 10" rotation="0 90 0"
+          scale="0.8 1 1.4"></a-entity>
+
+          <a-entity id="road1" gltf-model="../../assets/tower_models/tower_model2.glb" position="-3 -5.4 15" rotation="0 90 0"
+          scale="0.8 1 1.4"></a-entity>
+
+          <a-entity id="road1" gltf-model="../../assets/tower_models/tower_model2.glb" position="-3 -5.4 25" rotation="0 90 0"
+          scale="0.8 1 1.4"></a-entity>
+
+        <a-entity id="road1" gltf-model="../../assets/wall_models/road2.glb" position="0 -6 20" rotation="0 0 0"
+          scale="4.3 4.5 5.0"></a-entity>
+        <a-entity id="road2" gltf-model="../../assets/wall_models/road2.glb" position="0 -6 40" rotation="0 0 0"
+          scale="4.3 4.5 5.0"></a-entity>
+
+        <a-entity gltf-model="../../assets/wall_models/road.glb" position="15 -6 20" rotation="0 0 0"
+          scale="4.3 4.5 5.0"></a-entity>
+        <a-entity gltf-model="../../assets/wall_models/road.glb" position="-15 -6 20" rotation="0 0 0"
+          scale="4.3 4.5 5.0"></a-entity>
+
+        <a-entity gltf-model="../../assets/wall_models/road.glb" position="15 -6 40" rotation="0 0 0"
+          scale="4.3 4.5 5.0"></a-entity>
+        <a-entity gltf-model="../../assets/wall_models/road.glb" position="-15 -6 40" rotation="0 0 0"
+          scale="4.3 4.5 5.0"></a-entity>
+
+
+        <a-entity gltf-model="../../assets/board_models/board.glb" position="2 -5.4 23" rotation="0 -180 0"
+          scale="0.8 0.5 0.5"></a-entity>
+
       </a-entity>
-    
-    </a-entity> -->
+
+    </a-entity>
 
     <a-entity position = "-5.7 4.7 27">
       <a-entity position = "5 0 -45">
@@ -188,18 +217,21 @@
     </a-entity>
 
 
-    <a-entity position = "-2.1 0.5 34">
+    <a-entity position = "-2.1 0.5 43">
       <a-entity position = "5 0 -45">
-        <!-- <a-light type="point" color="#FFAA33" intensity="40" position="0 5 -30" angle="20" penumbra="0.05"
-        distance="45" target="#torch1"></a-light>
-       
 
-        <a-light type="point" color="#FFAA33" intensity="20" position="50 40 20" angle="20" penumbra="0.01"
-        distance="45" target="#torch1"></a-light> -->
+        <a-entity id="current-view" gltf-model="../../assets/button_models/button.glb" 
+        position="0 0.1 19.7" rotation="90 -90 0" scale="0.1 0.1 0.1" 
+        navigate-button="targetScene: current-lowamahapaya"></a-entity>
 
-        <a-entity id="temple-inside" gltf-model="../../assets/button_models/button.glb" position="0 0.1 19.7"  rotation ="90 -90 0"  scale = "0.1 0.1 0.1"></a-entity>
-        <a-entity id="old-inside" gltf-model="../../assets/button_models/button.glb" position="0 0.1 20"  rotation ="90 -90 0"  scale = "0.1 0.1 0.1"></a-entity>
-        <a-entity id="temple-inside" gltf-model="../../assets/button_models/button.glb" position="0 0.1 20.3"  rotation ="90 -90 0"  scale = "0.1 0.1 0.1"></a-entity>
+
+<a-entity id="future-view" gltf-model="../../assets/button_models/button.glb" 
+        position="0 0.1 20" rotation="90 -90 0" scale="0.1 0.1 0.1" 
+        navigate-button="targetScene: future-scenario"></a-entity>
+
+<a-entity id="old-view" gltf-model="../../assets/button_models/button.glb" 
+        position="0 0.1 20.3" rotation="90 -90 0" scale="0.1 0.1 0.1" 
+        navigate-button="targetScene: old-scenario"></a-entity>
 
         <a-entity id="temple-inside" gltf-model="../../assets/button_models/button.glb" position="0 -0.2 19.7"  rotation ="90 -90 0"  scale = "0.1 0.1 0.1"></a-entity>
         <a-entity id="temple-inside" gltf-model="../../assets/button_models/button.glb" position="0 -0.2 20"  rotation ="90 -90 0"  scale = "0.1 0.1 0.1"></a-entity>

@@ -35,6 +35,42 @@ export class TestComponent implements AfterViewInit {
   async ngAfterViewInit(): Promise<void> {
     const component = this;
 
+    AFRAME.registerComponent('navigate-button', {
+      schema: {
+        targetScene: {type: 'string'}
+      },
+    
+      init: function () {
+        const el = this.el;
+        const targetScene = this.data.targetScene;
+    
+        el.addEventListener('click', () => {
+          switch(targetScene) {
+            case 'current-lowamahapaya':
+              window.location.href = '/current-lowamahapaya';
+              break;
+            case 'future-scenario':
+              window.location.href = '/future-lowamahapaya';
+              break;
+            case 'old-scenario':
+              window.location.href = '/old-lowamahapaya';
+              break;
+            default:
+              console.warn('Scene not defined for target:', targetScene);
+          }
+        });
+      },
+    
+      navigateToScene: function(scenePath: string) {
+        const currentScene = document.getElementById('currentScene');
+        if (currentScene) {
+          currentScene.setAttribute('gltf-model', scenePath);
+        } else {
+          console.warn('Element with id "currentScene" not found.');
+        }
+      }
+    });
+
     AFRAME.registerComponent('oculus-thumbstick-controls', {
       schema: {
         acceleration: { default: 15 },
@@ -92,6 +128,7 @@ export class TestComponent implements AfterViewInit {
           // Stop movement if not allowed
           this.velocity.set(0, 0, 0);
         }
+        
       },
 
       isPositionAllowed: function (position: { x: number; z: number; distanceTo: (arg0: any) => any; }) {
